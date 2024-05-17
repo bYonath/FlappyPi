@@ -15,7 +15,7 @@ gravity = 0
 
 score = 0
 
-text = pygame.font.Font("Assets/Pixeltype.ttf", 50)
+text = pygame.font.Font("Pixeltype.ttf", 50)
 
 i = 0
 
@@ -33,23 +33,23 @@ infoRect = info.get_rect(center = (350, 150))
 
 # This list will be used for animation, it stores 
 # the other assets of the player "Flying animation"
-playerAnimate = ['Assets/Ball1.png', 'Assets/Ball2.png', 'Assets/Ball3.png']
+playerAnimate = ['Ball1.png', 'Ball2.png', 'Ball3.png']
 # there is a convert_alpha command in order to "increase performance"
 player = pygame.image.load(playerAnimate[0]).convert_alpha()
 # This rectangle will be drawn around the player and used for collisions
 playerRect = player.get_rect(topleft = (100,0))
 
 # Coin setup
-coin = pygame.image.load('Assets/Coin.png').convert_alpha()
+coin = pygame.image.load('Coin.png').convert_alpha()
 coinRect = coin.get_rect(topleft = (20,20))
 # Using the coin as the window icon
 pygame.display.set_icon(coin)
 # Top Wall
-topWall = pygame.image.load('Assets/Pipe.png').convert_alpha()
+topWall = pygame.image.load('Pipe.png').convert_alpha()
 topWallRect = topWall.get_rect(topleft = (900,-150))
 
 # Bottom Wall
-bottomWall = pygame.image.load('Assets/Pipe.png').convert_alpha()
+bottomWall = pygame.image.load('Pipe.png').convert_alpha()
 bottomWallRect = bottomWall.get_rect(topleft = (1100,0))
 
 def wallCollision(thing, wall, x, y):
