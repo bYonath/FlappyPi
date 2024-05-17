@@ -5,6 +5,7 @@ from sys import exit
 pygame.init()
 
 window = pygame.display.set_mode((800,400))
+pygame.display.set_caption('FlappyPi')
 
 timer = pygame.time.Clock()
 
@@ -16,22 +17,33 @@ score = 0
 
 text = pygame.font.Font("Assets/Pixeltype.ttf", 50)
 
+i = 0
+
 message = text.render('test', False, (0,0,0))
-messageRect = message.get_rect(center = (400,300))
+messageRect = message.get_rect(center = (300,300))
+messageRectActive = message.get_rect(topleft = (750,20))
+
+title = text.render('FlappyPi', False, (0,0,0))
+titleRect = title.get_rect(center = (350,50))
+
+info = text.render('Press Space To Start!', False, (0,0,0))
+infoRect = info.get_rect(center = (350, 150))
 
 # Player defenition code
-# there is a convert_alpha command in order to "increase performance"
-player = pygame.image.load('Assets/Ball1.png').convert_alpha()
-# This rectangle will be drawn around the player and used for collisions
-playerRect = player.get_rect(topleft = (100,0))
+
 # This list will be used for animation, it stores 
 # the other assets of the player "Flying animation"
-playerAnimate = []
+playerAnimate = ['Assets/Ball1.png', 'Assets/Ball2.png', 'Assets/Ball3.png']
+# there is a convert_alpha command in order to "increase performance"
+player = pygame.image.load(playerAnimate[0]).convert_alpha()
+# This rectangle will be drawn around the player and used for collisions
+playerRect = player.get_rect(topleft = (100,0))
 
 # Coin setup
 coin = pygame.image.load('Assets/Coin.png').convert_alpha()
 coinRect = coin.get_rect(topleft = (20,20))
-
+# Using the coin as the window icon
+pygame.display.set_icon(coin)
 # Top Wall
 topWall = pygame.image.load('Assets/Pipe.png').convert_alpha()
 topWallRect = topWall.get_rect(topleft = (900,-150))
@@ -64,7 +76,7 @@ def coinCollision(thing, coin):
         print(score)
 
 def reset():
-    global coinRect, playerRect, topWallRect, bottomWallRect, score
+    global coinRect, playerRect, topWallRect, bottomWallRect, score, gravity
     coinRect.x = 20
     coinRect.y = 20
     playerRect.x = 100
@@ -74,6 +86,7 @@ def reset():
     bottomWallRect.x = 1100
     bottomWallRect.y = 0
     score = 0
+    gravity = 0
 
 while True:
     for event in pygame.event.get():
@@ -101,9 +114,16 @@ while True:
         window.blit(player, playerRect)
         window.blit(topWall, topWallRect)
         window.blit(bottomWall,bottomWallRect)
-        window.blit(message, messageRect)
+        window.blit(message, messageRectActive)
 
         message = text.render(f'{score}', False, (0,0,0))
+        
+
+        if i > 2:
+            i = 0
+        else:
+            player = pygame.image.load(playerAnimate[int(i)]).convert_alpha()       
+            i += 0.1
 
         playerRect.y+=gravity
         gravity+=0.5
@@ -112,10 +132,15 @@ while True:
         wallCollision(playerRect, bottomWallRect, 200, 270)
         coinCollision(playerRect, coinRect)
 
+        if playerRect.y > 600 or playerRect.y < -200:
+            gameActive = False
+
 
     else:
         window.fill((173,216,230))
         window.blit(message, messageRect)
+        window.blit(title, titleRect)
+        window.blit(info, infoRect)
         message = text.render(f'Score is: {score}', False, (0,0,0))
         reset()
 
