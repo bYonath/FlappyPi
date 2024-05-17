@@ -50,17 +50,7 @@ topWallRect = topWall.get_rect(topleft = (900,-150))
 
 # Bottom Wall
 bottomWall = pygame.image.load('Assets/Pipe.png').convert_alpha()
-bottomWallRect = bottomWall.get_rect(topleft = (1100,0))
-
-def wallCollision(thing, wall, x, y):
-    global gameActive
-    wall.x -= 3
-    if wall.x < -100:
-        wall.x = 1000
-        wall.y = random.randint(x,y)
-    if thing.colliderect(wall):
-            gameActive = False
-            
+bottomWallRect = bottomWall.get_rect(topleft = (1100,0))   
 
 def coinCollision(thing, coin):
     global score
@@ -76,7 +66,7 @@ def coinCollision(thing, coin):
         print(score)
 
 def reset():
-    global coinRect, playerRect, topWallRect, bottomWallRect, score, gravity
+    global coinRect, playerRect, topWallRect, bottomWallRect, gravity
     coinRect.x = 20
     coinRect.y = 20
     playerRect.x = 100
@@ -85,8 +75,17 @@ def reset():
     topWallRect.y = -150
     bottomWallRect.x = 1100
     bottomWallRect.y = 0
-    score = 0
     gravity = 0
+
+def wallCollision(thing, wall, x, y):
+    global gameActive
+    wall.x -= 3
+    if wall.x < -100:
+        wall.x = 1000
+        wall.y = random.randint(x,y)
+    if thing.colliderect(wall):
+            gameActive = False
+            reset()
 
 while True:
     for event in pygame.event.get():
@@ -104,6 +103,7 @@ while True:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     gameActive = True
+                    score = 0
                     print(gameActive)
     # This will fill the window so that it is light blue * it uses
     # a tuple for rgb values
@@ -134,6 +134,7 @@ while True:
 
         if playerRect.y > 600 or playerRect.y < -200:
             gameActive = False
+            reset()
 
 
     else:
@@ -142,7 +143,6 @@ while True:
         window.blit(title, titleRect)
         window.blit(info, infoRect)
         message = text.render(f'Score is: {score}', False, (0,0,0))
-        reset()
 
     timer.tick(60)
     pygame.display.update()
