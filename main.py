@@ -114,7 +114,7 @@ while True:
         window.blit(player, playerRect)
         window.blit(topWall, topWallRect)
         window.blit(bottomWall,bottomWallRect)
-        window.blit(message, messageRectActive)
+        window.blit(message, messageRect)
 
         message = text.render(f'{score}', False, (0,0,0))
         
