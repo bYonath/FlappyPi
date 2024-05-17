@@ -62,8 +62,9 @@ def coinCollision(thing, coin):
         coin.y = 1000
         message = text.render(f'{score}', False, (0,0,0))
         print(score)
+
 def reset():
-    global coinRect, playerRect, topWallRect, bottomWallRect
+    global coinRect, playerRect, topWallRect, bottomWallRect, score
     coinRect.x = 20
     coinRect.y = 20
     playerRect.x = 100
@@ -72,6 +73,7 @@ def reset():
     topWallRect.y = -150
     bottomWallRect.x = 1100
     bottomWallRect.y = 0
+    score = 0
 
 while True:
     for event in pygame.event.get():
